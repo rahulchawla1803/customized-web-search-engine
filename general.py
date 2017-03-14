@@ -1,4 +1,5 @@
 import os
+from stop_words import get_stop_words
 
 # <Each website in separate folder, directory>
 
@@ -59,7 +60,23 @@ def set_to_file(links, file):
         append_to_file(file,link)
 
 
+def cleaning(content):
+    stop_words = get_stop_words('english')
+    content = content.lower()
+    content_clean = []
+    temp = []
+    words = content.split()
+    for j in words:
+        if j not in stop_words:
+            temp.append(j)
 
+    symbols = "!@#$%^&*(){}[]:;,\"'<>?./+_=.-|"
+    for w in temp:
+        for i in range(0, len(symbols)):
+            w = w.replace(symbols[i], "")
+        if len(w) > 0:
+            content_clean.append(w)
+    return content_clean
 
 
 

@@ -1,27 +1,7 @@
 from pymongo import MongoClient
 from collections import Counter
-from stop_words import get_stop_words
+from general import cleaning
 
-def cleaning(content):
-    content = content.lower()
-    content_clean = []
-    temp = []
-    words = content.split()
-    for j in words:
-        if j not in stop_words:
-            temp.append(j)
-
-    symbols = "!@#$%^&*(){}[]:;,\"'<>?./+_=.-|"
-    for w in temp:
-        for i in range(0, len(symbols)):
-            w = w.replace(symbols[i], "")
-        if len(w) > 0:
-            content_clean.append(w)
-    return content_clean
-
-
-
-stop_words = get_stop_words('english')
 client = MongoClient()
 db=client.webSE
 
@@ -58,12 +38,15 @@ for i in docs:
         title_relative.append(inverse_count_title)
 
     len_one_doc=len(content_clean)
+    '''
     if len_one_doc<100:
         keyword_count=5
     if len_one_doc>=100 and len_one_doc<1000:
         keyword_count=7
     if len_one_doc>=1000:
         keyword_count=10
+    '''
+    keyword_count=7
     x=Counter(content_clean)
 
     top=x.most_common(keyword_count)
@@ -74,7 +57,7 @@ for i in docs:
         sum=sum+val
     for (key,val) in top:
         keywords.append(key)
-        keyword_relative.append(val/len_one_doc)
+        keyword_relative.append((val*10)/len_one_doc)
 
     #print("title: " + title)
     #print("title_clean : ", title_clean)
@@ -82,19 +65,3 @@ for i in docs:
 
 
 
-def cleaning(content):
-    content = content.lower()
-    content_clean = []
-    temp = []
-    words = content.split()
-    for j in words:
-        if j not in stop_words:
-            temp.append(j)
-
-    symbols = "!@#$%^&*(){}[]:;,\"'<>?./+_="
-    for w in temp:
-        for i in range(0, len(symbols)):
-            w = w.replace(symbols[i], "")
-        if len(w) > 0:
-            content_clean.append(w)
-    return content_clean

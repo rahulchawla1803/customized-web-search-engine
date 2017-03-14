@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<h1>Results</h1>
+<hr>
+<ul>
+    {% for (key, value) in result.items() %}
+    <li>
+        <h3>{{value}}</h3>
+        <a href="{{key}}">{{key}}</a>
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
