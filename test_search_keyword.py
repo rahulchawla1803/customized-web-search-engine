@@ -2,25 +2,60 @@ from pymongo import MongoClient
 from collections import Counter
 from general import cleaning
 import operator
+import enchant
+from stemming.porter2 import stem
+from PyDictionary import PyDictionary
+
+
 
 def search(search_query):
+    dict = enchant.Dict("en_UK")
+    dictionary = PyDictionary()
     print(search_query)
     clean_query = cleaning(search_query)
+    synonyms=[]
+    synonyms_final=[]
+    synonyms_final_root=[]
+    for word in clean_query:
+        if dict.check(word):
+            synonyms=dictionary.synonym(word)
+            synonyms_final=synonyms_final+synonyms
+
+
+    length_clean_query = len(clean_query)
+    for word in clean_query[:length_clean_query + 1]:
+        suggestions = dict.suggest(word)
+        for i in suggestions:
+            clean_query.append(i)
+    print(clean_query)
+    clean_query_root=[]
+
+    for word in clean_query:
+        root_word=stem(word)
+        clean_query_root.append(root_word)
+
+    for word in synonyms_final:
+        root_word=stem(word)
+        synonyms_final_root.append(root_word)
+
+    clean_query_root=clean_query_root+synonyms_final_root
+
     title_rank={}
     keyword_rank={}
     client = MongoClient()
     db=client.webSE
     docs=db.keyword.find({})
 
-    for doc in docs[0:15]:
+    for doc in docs:
         title_match_value=0
-        for index,title_keyword in enumerate(doc['title_clean']):
-            for query_keyword in clean_query:
+        for index,title_keyword_root in enumerate(doc['title_root']):
+            for query_keyword_root in clean_query_root:
                 #print("title_keyword : "+ title_keyword+",  query_keyword : "+query_keyword)
-                if title_keyword == query_keyword:
+                if title_keyword_root == query_keyword_root:
                     #print("check loop")
                     title_match_value = title_match_value + doc['title_relative'][index]
         #print(title_match_value)
+
 
         title_rank[doc['url']]=title_match_value
 
@@ -29,12 +64,12 @@ def search(search_query):
     docs=db.keyword.find({})
 
 
-    for doc in docs[0:15]:
+    for doc in docs:
         keyword_match_value=0
-        for index , keyword in enumerate(doc['keywords']):
-            for query_keyword in clean_query:
+        for index , keyword_root in enumerate(doc['keyword_root']):
+            for query_keyword_root in clean_query_root:
 
-                if keyword == query_keyword:
+                if keyword_root == query_keyword_root:
                     keyword_match_value = keyword_match_value + doc['keyword_relative'][index]
 
         keyword_rank[doc['url']]=keyword_match_value
@@ -77,4 +112,4 @@ def search(search_query):
     return final_link_title_dict
 
 
-#search("videos lower case")
+#search("")

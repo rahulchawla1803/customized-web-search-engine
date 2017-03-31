@@ -54,6 +54,7 @@ class spider:
             spider.add_links_to_queue(spider.gather_links(page_url))
             spider.queue.remove(page_url)
             spider.crawled.add(page_url)
+            print("page just crawled : "+page_url)
             spider.update_files()
 
 
@@ -67,12 +68,16 @@ class spider:
         html_string=''
         try:
             response=urlopen(page_url)
-            if response.getheader("Content-Type")=='text/html':
+            #res_get_head=response.getheader("Content-Type")
+            #print("Response.getheader type = "+res_get_head)
+            if 'text/html' in response.getheader("Content-Type"):
                 html_bytes=response.read()
                 html_string=html_bytes.decode('utf-8')
                 finder=LinkFinder(spider.base_url,page_url)
                 finder.feed(html_string)
+
         except (RuntimeError, TypeError, NameError):
+            print("Page url : "+ page_url)
             print("Error: can not crawl the page\n")
             print(RuntimeError+"\n"+TypeError+"\n"+NameError)
             return set()
@@ -83,14 +88,28 @@ class spider:
 
     @staticmethod
     def add_links_to_queue(links):
+        #print(links)
         for url in links:
             if url in spider.queue:
                 continue
             if url in spider.crawled:
                 continue
+            if url[0:26] !='http://www.health.com/food':
+                continue
             if spider.domain_name not in url:
                 continue
+            if url[-4:] == '.pdf' or url[-4:] =='.jpg':
+                continue
+            if url[-4:] == '.xls' or url[-4:] =='.doc':
+                continue
+            if url[-5:] == '.xlsx':
+                continue
+            if "mailto:" in url:
+                continue
             spider.queue.add(url)
+
+        #print("hello:")
+        #print(spider.queue)
 
     @staticmethod
     def update_files():

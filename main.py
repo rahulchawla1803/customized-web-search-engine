@@ -4,16 +4,22 @@ from Spider import spider
 from domain import *
 from general import *
 
-PROJECT_NAME='thenewboston'
-#PROJECT_NAME='mongodb'
+#PROJECT_NAME='thenewboston'
+PROJECT_NAME='health_food'
+#PROJECT_NAME='rvce'
 
-HOMEPAGE='https://thenewboston.com/'
-#HOMEPAGE='https://docs.mongodb.com/'
+#HOMEPAGE='https://thenewboston.com/'
+HOMEPAGE='http://www.health.com/food/'
+#HOMEPAGE='http://rvce.edu.in/'
 
-DOMAIN_NAME=get_domain_name(HOMEPAGE)
+#DOMAIN_NAME=get_domain_name(HOMEPAGE)
+DOMAIN_NAME='health.com/food'
+
+
+
 QUEUE_FILE=PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE=PROJECT_NAME + '/crawled.txt'
-NUMBER_OF_THREADS=100
+NUMBER_OF_THREADS=50
 
 # queue variable is basically thread queue
 queue=Queue()
@@ -53,10 +59,9 @@ def create_jobs():
 
 def crawl():
     queue_links=file_to_set(QUEUE_FILE)
-    if(len(queue_links)) > 0:
+    if (len(queue_links)) > 0:
         print(str(len(queue_links))+ ' links in the queue')
         create_jobs()
-
 
 '''
 READ queue.get(block=True, timeout=None)

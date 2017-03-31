@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from collections import Counter
 from general import cleaning
+from stemming.porter2 import stem
 
 client = MongoClient()
 db=client.webSE
@@ -29,6 +30,8 @@ for i in docs:
     keyword_relative=[]
     title_relative=[]
     keywords=[]
+    keyword_root=[]
+    title_root=[]
     content_clean=cleaning(content)
     title_clean=cleaning(title)
 
@@ -36,6 +39,9 @@ for i in docs:
         count_title=title_combined.count(title_word)
         inverse_count_title=1-(count_title/total_len_title)
         title_relative.append(inverse_count_title)
+
+        root_word_title=stem(title_word)
+        title_root.append(root_word_title)
 
     len_one_doc=len(content_clean)
     '''
@@ -57,11 +63,14 @@ for i in docs:
         sum=sum+val
     for (key,val) in top:
         keywords.append(key)
+        root_word_keyword=stem(key)
+        keyword_root.append(root_word_keyword)
         keyword_relative.append((val*10)/len_one_doc)
 
     #print("title: " + title)
     #print("title_clean : ", title_clean)
-    db.keyword.insert({"url":i['url'], "title_clean":title_clean,"title_relative":title_relative,"keywords":keywords, "keyword_relative":keyword_relative})
+    db.keyword.insert({"url":i['url'], "title_clean":title_clean, "title_root":title_root, "title_relative":title_relative,
+                       "keywords":keywords, "keyword_root":keyword_root, "keyword_relative":keyword_relative})
 
 
 
