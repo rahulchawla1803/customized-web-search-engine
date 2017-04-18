@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+</html>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+     $(function() {
+         console.log("hi")
+         $.ajax({
+             url: "http://127.0.0.1:5000/autocomplete",
+             type: "GET",
+             dataType: "text",
+             success: function(response) {
+                 console.log("Reached index.html"
+                 )
+                 console.log(response)
+
+             },
+             error: function (xhr, status) {
+                 alert("error");
+                 print(xhr)
+                 print(status)
+             }
+         });
+     });
+</script>

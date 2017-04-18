@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     <!-- Bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/animate.min.css" >
+  <link rel="stylesheet" href="css/style.css"> 
+
+  </head>
+  <body>  
+  <header id="header">
+       
+      <div class="container-fluid">
+          <center><h1 style="color:#638294;"> Customized Web Search Engine </h1></center>
+      </div>
+      <br>
+  </header>
+  
+  <div class="slider">    
+    <div id="about-slider">
+      <div id="carousel-slider" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+      
+        <div class="carousel-inner">
+          <div class="item active">           
+            <img src="img/back7.jpg" class="img-responsive" alt="random-image"> 
+            <div class="carousel-caption">
+              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.3s">                
+                <h2><span>SEARCH</span></h2>
+                <br>
+              </div>
+              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.9s"> 
+
+<form id="form1" method = 'post'>
+    <div class="ui-widget">
+    <label for="tags"></label>
+    <input type="text" form="form1" id="tags" name = "query" class="form-control input-lg">
+    </div>
+    <br>
+    <div class = "row">
+    <div class="form-group">
+<input type = 'submit' id="search" onclick="search_click()" value = 'SEARCH' class="btn btn-primary btn-lg" />
+
+<input type = 'submit' id="analyze" onclick="analyze_click()" value = 'ANALYZE' class="btn btn-primary btn-lg" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+        </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<script>
+    function search_click()
+    {
+     document.getElementById('form1').action = "http://127.0.0.1:5000/";
+     document.getElementById('form1').submit();
+
+    }
+    function analyze_click()
+    {
+    document.getElementById('form1').action = "http://127.0.0.1:5000/analysis";
+    document.getElementById('form1').submit();
+    }
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="static/js/autocomplete.js"></script>

@@ -46,7 +46,7 @@ class LinkFinder(HTMLParser):
         if tag=='html':
             self.tag_data_join=' '.join(self.tag_data)
             self.tag_data_join=" ".join((self.tag_data_join.split()))
-            db.data.insert({"url":self.page_url,"title":self.title_data ,"content":self.tag_data_join})
+            db.hindustantimes.insert({"url":self.page_url,"title":self.title_data ,"content":self.tag_data_join})
         elif (tag == 'script') or (tag == 'style'):
             self.style_script_flag = 0
         elif tag=='title':

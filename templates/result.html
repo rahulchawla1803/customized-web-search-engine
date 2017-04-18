@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<h1>Results</h1>
-<hr>
+<h1 style="font-size: 300%">Results</h1>
 <ul>
     {% for (key, value) in result.items() %}
     <li>
-        <h3>{{value}}</h3>
-        <a href="{{key}}">{{key}}</a>
+        <p style="font-size:145%; font-weight: 500;">{{value}}</p>
+        <a href="{{key}}" style="font-size: 120%">{{key}}</a>
     </li>
-    <hr>
+    <br><br>
     {% endfor %}
 </ul>

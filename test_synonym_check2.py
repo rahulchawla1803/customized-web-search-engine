@@ -1,4 +1,4 @@
 from PyDictionary import PyDictionary
 dictionary=PyDictionary()
 
-print(dictionary.synonym("ingestion"))
+print(dictionary.synonym("a"))

@@ -5,23 +5,23 @@ from domain import *
 from general import *
 
 #PROJECT_NAME='thenewboston'
-PROJECT_NAME='health_food'
-#PROJECT_NAME='rvce'
+#PROJECT_NAME='health'
+PROJECT_NAME='hindustantimes'
 
 #HOMEPAGE='https://thenewboston.com/'
-HOMEPAGE='http://www.health.com/food/'
-#HOMEPAGE='http://rvce.edu.in/'
+#HOMEPAGE='http://www.health.com/'
+HOMEPAGE='http://www.hindustantimes.com/'
 
-#DOMAIN_NAME=get_domain_name(HOMEPAGE)
-DOMAIN_NAME='health.com/food'
-
+DOMAIN_NAME=get_domain_name(HOMEPAGE)
+#DOMAIN_NAME='health.com/food'
+#DOMAIN_NAME='health.com'
 
 
 QUEUE_FILE=PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE=PROJECT_NAME + '/crawled.txt'
-NUMBER_OF_THREADS=50
+NUMBER_OF_THREADS=100
 
-# queue variable is basically thread queue
+#queue variable is basically thread queue
 queue=Queue()
 spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 
@@ -30,6 +30,7 @@ spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 def create_workers():
     for _ in range(NUMBER_OF_THREADS):
         t=threading.Thread(target=work)
+        #print("check1")
         t.daemon=True
         # daemon so that thread dies when main exits
         t.start()
@@ -58,6 +59,7 @@ def create_jobs():
 #check if there are item in queue, and crawl them
 
 def crawl():
+    #print("check2")
     queue_links=file_to_set(QUEUE_FILE)
     if (len(queue_links)) > 0:
         print(str(len(queue_links))+ ' links in the queue')

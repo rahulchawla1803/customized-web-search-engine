@@ -1,0 +1,29 @@
+<form id="form1" method = 'post'>
+    <div class="ui-widget">
+    <label for="tags"></label>
+    <textarea rows="2" cols="100" id="tags" name="query" form="form1" style="position:fixed; top:50%; left:50%; transform: translate(-51%, -50%);"></textarea>
+    </div>
+    <br>
+<input type = 'submit' id="search" onclick="search_click()" value = 'SEARCH' style="width:150; height:50; position:fixed; top:60%; left:40%; transform: translate(-50%, -50%); " />
+
+<input type = 'submit' id="analyze" onclick="analyze_click()" value = 'ANALYZE' style="width:150; height:50; position:fixed; top:60%; left:60%; transform: translate(-50%, -50%); " />
+
+</form>
+
+<script>
+    function search_click()
+    {
+     document.getElementById('form1').action = "http://127.0.0.1:5000/";
+     document.getElementById('form1').submit();
+
+    }
+    function analyze_click()
+    {
+    document.getElementById('form1').action = "http://127.0.0.1:5000/analysis";
+    document.getElementById('form1').submit();
+    }
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="static/js/autocomplete.js"></script>

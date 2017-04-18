@@ -25,6 +25,7 @@ class spider:
         spider.queue_file=spider.project_name+'/queue.txt'
         spider.crawled_file = spider.project_name + '/crawled.txt'
         self.boot()
+        print("check4")
         self.crawl_page('First Spider',spider.base_url)
 
 
@@ -40,14 +41,14 @@ class spider:
         create_data_files(spider.project_name, spider.base_url)
         spider.queue=file_to_set(spider.queue_file)
         spider.crawled=file_to_set(spider.crawled_file)
-
+        print("check3")
 
 
 
     @staticmethod
     def crawl_page(thread_name, page_url):
 
-
+        #print("check5")
         if page_url not in spider.crawled:
             print(thread_name + ' now crawling '+page_url)
             print('queue '+str(len(spider.queue))+' || '+' crawled '+str(len(spider.crawled)))
@@ -68,6 +69,9 @@ class spider:
         html_string=''
         try:
             response=urlopen(page_url)
+
+
+            #print("check7")
             #res_get_head=response.getheader("Content-Type")
             #print("Response.getheader type = "+res_get_head)
             if 'text/html' in response.getheader("Content-Type"):
@@ -88,15 +92,16 @@ class spider:
 
     @staticmethod
     def add_links_to_queue(links):
-        #print(links)
+        #print("links are", links)
         for url in links:
+            #print("url is", url)
             if url in spider.queue:
                 continue
             if url in spider.crawled:
                 continue
-            if url[0:26] !='http://www.health.com/food':
-                continue
             if spider.domain_name not in url:
+                continue
+            if url[:29] != 'http://www.hindustantimes.com':
                 continue
             if url[-4:] == '.pdf' or url[-4:] =='.jpg':
                 continue
@@ -106,6 +111,9 @@ class spider:
                 continue
             if "mailto:" in url:
                 continue
+
+
+            #print("reached")
             spider.queue.add(url)
 
         #print("hello:")

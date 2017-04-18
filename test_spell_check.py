@@ -1,7 +1,7 @@
 import enchant
 
 dict = enchant.Dict("en_UK")
-print(dict.check('kh'))
+print(dict.suggest('helth'))
 '''
 length_clean_query=len(clean_query)
 
