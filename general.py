@@ -105,3 +105,110 @@ def cleaning(content):
 
 
 
+
+
+
+
+
+
+
+
+
+def cleaning_hind(content):
+    stop_words = get_stop_words('english')
+    stop_words= stop_words+['2017','april', 'ist', 'apr', '18', '2015', '2016', '17', '16', 'India', 'india', 'delhi', 'gujarat']
+    content = content.lower()
+    content_clean = []
+    temp = []
+    words = content.split()
+    for j in words:
+        if j not in stop_words:
+            temp.append(j)
+
+    symbols = "!@#$%^&*(){}[]:;,\"'<>?./+_=.-|1234567890"
+    for w in temp:
+        for i in range(0, len(symbols)):
+            w = w.replace(symbols[i], "")
+        if len(w) > 0:
+            content_clean.append(w)
+    return content_clean
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def cleaning_health(content):
+    stop_words = get_stop_words('english')
+    stop_words= stop_words+['health','challenge','day', '30-day', '5-day', '21-day', 'follow', 'us']
+    content = content.lower()
+    content_clean = []
+    temp = []
+    words = content.split()
+    for j in words:
+        if j not in stop_words:
+            temp.append(j)
+
+    symbols = "!@#$%^&*(){}[]:;,\"'<>?./+_=.-|1234567890"
+    for w in temp:
+        for i in range(0, len(symbols)):
+            w = w.replace(symbols[i], "")
+        if len(w) > 0:
+            content_clean.append(w)
+    return content_clean
+
+
+
+
+def cleaning_thenew(content):
+    stop_words = get_stop_words('english')
+    stop_words= stop_words+['thenewboston', 'video', 'forum', 'follow', 'videos']
+    content = content.lower()
+    content_clean = []
+    temp = []
+    words = content.split()
+    for j in words:
+        if j not in stop_words:
+            temp.append(j)
+
+    symbols = "!@#$%^&*(){}[]:;,\"'<>?./+_=.-|1234567890"
+    for w in temp:
+        for i in range(0, len(symbols)):
+            w = w.replace(symbols[i], "")
+        if len(w) > 0:
+            content_clean.append(w)
+    return content_clean
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

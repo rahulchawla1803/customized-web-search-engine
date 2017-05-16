@@ -7,7 +7,7 @@ from stemming.porter2 import stem
 
 client = MongoClient()
 db=client.webSE
-docs=db.data.find({})
+docs=db.data1500.find({})
 
 #print("check1")
 for doc in docs:

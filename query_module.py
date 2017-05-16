@@ -13,11 +13,11 @@ def query_structure(search_query):
     word_suggestions=[]
 
     synonym_docs=[]
-    for line in open('synonym.json', 'r'):
+    for line in open('synonym1500.json', 'r'):
         synonym_docs.append(json.loads(line))
 
 
-    print(search_query)
+    #print(search_query)
     clean_query = cleaning(search_query)
 
     for word in clean_query:
@@ -25,7 +25,7 @@ def query_structure(search_query):
             if word in doc['words']:
                 query_synonym = query_synonym + doc['words']
 
-    print(query_synonym)
+    #print(query_synonym)
 
 
     for word in clean_query:

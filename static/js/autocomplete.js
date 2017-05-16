@@ -2,9 +2,9 @@
       var availableTags_text
       var availableTags
       $.ajax({
-             //url: "http://127.0.0.1:5000/autocomplete"
+             url: "http://127.0.0.1:5000/autocomplete",
 
-            url: "http://192.168.0.105:5000/autocomplete",
+             //url: "http://192.168.0.105:5000/autocomplete",
              type: "GET",
              dataType: "text",
              success: function(response) {

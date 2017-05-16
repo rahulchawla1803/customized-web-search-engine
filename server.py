@@ -4,13 +4,13 @@ import query_module
 import ranking_text_mining
 import ranking_nlp
 import auto_complete
+import combined_ranking
+import os
 
-print("server START")
+
 result_list=auto_complete.auto()
-#print(len(result_list))
 result_str=','.join(result_list)
-#print(result_str)
-#print(len(result_str))
+
 
 app = Flask(__name__)
 CORS(app)
@@ -18,31 +18,52 @@ CORS(app)
 def index():
 	query = request.form['query']
 	a, b, c=query_module.query_structure(query)
-	result=ranking_text_mining.ranking(a, b, c)
-	temp_result=ranking_nlp.rank_ngram(query)
-	print(temp_result)
-	#result = ranking_text_mining.ranking(query_module.query_structure(query))
+	result_tm=ranking_text_mining.ranking(a, b, c)
+	result_nlp, ngram_considered=ranking_nlp.rank_ngram(query)
+	result, result_score=combined_ranking.ranking(result_tm,result_nlp)
 
 	return render_template("result.html",result=result)
 
-@app.route('/analysis', methods=['POST'])
+@app.route('/analysis', methods=['GET', 'POST'])
 def analyze():
 	query = request.form['query']
-	clean_query_root, query_synonym_root, query_suggestion_root = query_module.query_structure(query)
+	a, b, c = query_module.query_structure(query)
+	clean_query_root = a
+	query_synonym_root = b
+	query_suggestion_root = c
+	query_analyse = query
+	result_tm = ranking_text_mining.ranking(a, b, c)
+	result_nlp, ngram_considered = ranking_nlp.rank_ngram(query)
+	result, result_score = combined_ranking.ranking(result_tm, result_nlp)
+	result_analyse = result
+	result_score_analyse = result_score
+	score=[]
+	query_synonym_root=list(set(query_synonym_root))
+	query_suggestion_root=list(set(query_suggestion_root))
+
+	for key, value in result_score_analyse.items():
+		value=round(value,4)
+		result_score_analyse[key]=value
+		score.append(value)
 
 
-	return render_template("analysis.html",query=query)
+	return render_template("analysis.html",
+						   query=query_analyse,
+						   query_root=clean_query_root,
+						   synonym=query_synonym_root,
+						   suggestion=query_suggestion_root,
+						   result_title=result_analyse,
+						   result_score=result_score_analyse,
+						   score=score,
+						   ngram=ngram_considered)
 
 
-@app.route('/ana', methods=['GET'])
-def ana():
-	return render_template("ana.html", result="hello")
 
 @app.route('/autocomplete', methods=['GET'])
 def auto():
-	print("Reached server")
+	#print("Reached server")
 	return result_str
 
 
 if __name__ == '__main__':
-	app.run("0.0.0.0",debug = True)
+	app.run(host=os.getenv('LISTEN', '0.0.0.0'), port=int(os.getenv('PORT', '5000')), debug = True)

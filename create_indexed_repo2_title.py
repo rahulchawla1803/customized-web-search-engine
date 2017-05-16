@@ -5,8 +5,8 @@ from stemming.porter2 import stem
 client = MongoClient()
 db=client.webSE
 
-docs_count=db.data.find({}).count()
-docs=db.data.find({})
+docs_count=db.data1500.find({}).count()
+docs=db.data1500.find({})
 title_combined_unique_root=[]
 
 for doc in docs:
@@ -25,7 +25,7 @@ for doc in docs:
 
 #print(title_combined_unique_root)
 
-docs=db.data.find({})
+docs=db.data1500.find({})
 
 for doc in docs:
 

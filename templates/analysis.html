@@ -2,9 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <h1>Site under construction<h1>
+    <h1>Analysis</h1>
+    <hr>
+    <h3>Query : {{query}}</h3>
+    <h4>Query in Root form : {{query_root}}</h4>
+    <h4>Synonyms in query : {{synonym}}</h4>
+    <h4> Ngrams considered: {{ngram}}</h4>
+    <h4>Suggestions in query : {{suggestion}}</h4>
+    <hr>
+    <ul>
+    <h3>Result Scores : </h3>
+    {% for k,v in result_score.items()%}
+    <li>{{k}} : <b>{{v}}</b></li>
+    {% endfor %}
+    <ul>
+
+     <br><br><br>
+
+
+    <div id="container" style="min-width: 310px; height:400px; margin:0 auto"></div>
+
+
+
 </head>
 <body>
 
 </body>
 </html>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    Highcharts.chart('container', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Ranking Score Analysis'
+    },
+    xAxis: {
+
+        categories: ['Page 1', 'Page 2', 'Page 3', 'Page 4', 'Page 5', 'Page 6', 'Page 7', 'Page 8', 'Page 9', 'Page 10']
+    },
+    yAxis: {
+        title: {
+            text: 'Page Score'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        data: {{score}}
+    }]
+});
+</script>
